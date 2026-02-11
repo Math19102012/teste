@@ -48,26 +48,22 @@ class GraphClient:
         return r.json()["id"]
 
     def get_list_id_by_name(self, site_id: str, display_name: str) -> str:
-        url = f"{GRAPH}/sites/{site_id}/lists?$select=id,displayName,webUrl"
+        url = f"{GRAPH}/sites/{site_id}/lists?$select=id,displayName"
         r = requests.get(url, headers=self._headers(), timeout=30)
         r.raise_for_status()
 
         lists = r.json().get("value", [])
 
-        if not lists:
-            raise ValueError("Nenhuma lista encontrada no site. Verifique permissões no Azure.")
-
-        # Mostrar todas para debug
         for lst in lists:
-            print("LISTA ENCONTRADA:", lst.get("displayName"))
+            nome_real = lst.get("displayName", "").replace("\n", "").strip()
+            nome_busca = display_name.replace("\n", "").strip()
 
-        # Tentar encontrar parcialmente
-        for lst in lists:
-            if display_name.lower() in lst.get("displayName", "").lower():
+            if nome_busca.lower() in nome_real.lower():
                 return lst.get("id")
 
         nomes = [lst.get("displayName") for lst in lists]
         raise ValueError(f"Lista não encontrada. Listas disponíveis: {nomes}")
+
 
     # ---- Itens da lista ----
     def fetch_list_items(
