@@ -48,16 +48,16 @@ class GraphClient:
         return r.json()["id"]
 
     def get_list_id_by_name(self, site_id: str, display_name: str) -> str:
-    url = f"{GRAPH}/sites/{site_id}/lists?$select=id,displayName"
-    r = requests.get(url, headers=self._headers(), timeout=30)
-    r.raise_for_status()
+        url = f"{GRAPH}/sites/{site_id}/lists?$select=id,displayName"
+        r = requests.get(url, headers=self._headers(), timeout=30)
+        r.raise_for_status()
 
-    print("===== LISTAS DISPONÍVEIS NO SITE =====")
+        print("===== LISTAS DISPONÍVEIS NO SITE =====")
 
-    for lst in r.json().get("value", []):
-        print("LISTA DISPONÍVEL:", lst.get("displayName"))
+        for lst in r.json().get("value", []):
+            print("LISTA DISPONÍVEL:", lst.get("displayName"))
 
-    raise ValueError(f"Lista '{display_name}' não encontrada no site {site_id}")
+        raise ValueError(f"Lista '{display_name}' não encontrada no site {site_id}")
 
     # ---- Itens da lista ----
     def fetch_list_items(
@@ -98,4 +98,5 @@ def normalize_columns(df: pd.DataFrame) -> pd.DataFrame:
     if cols:
         df = df.rename(columns=cols)
     return df
+
 
