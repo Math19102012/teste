@@ -59,30 +59,30 @@ class GraphClient:
         raise ValueError(f"Lista '{list_name}' não encontrada.")
 
     def fetch_list_items(self, site_id: str, list_id: str) -> list:
-    url = f"{self.base_url}/sites/{site_id}/lists/{list_id}/items?expand=fields"
+        url = f"{self.base_url}/sites/{site_id}/lists/{list_id}/items?expand=fields"
 
-    all_items = []
+        all_items = []
 
-    while url:
-        response = requests.get(url, headers=self._headers())
-        response.raise_for_status()
+        while url:
+            response = requests.get(url, headers=self._headers())
+            response.raise_for_status()
 
-        data = response.json()
-        items = data.get("value", [])
+            data = response.json()
+            items = data.get("value", [])
 
-        # ✅ DEBUG (apenas para teste)
-        if items:
-            print("EXEMPLO DE ITEM:")
-            print(items[0])
+            # ✅ DEBUG (apenas para teste)
+            if items:
+                print("EXEMPLO DE ITEM:")
+                print(items[0])
 
-        # ✅ Extrai apenas os fields
-        rows = [item.get("fields", {}) for item in items]
-        all_items.extend(rows)
+            # ✅ Extrai apenas os fields
+            rows = [item.get("fields", {}) for item in items]
+            all_items.extend(rows)
 
-        # 🔄 Paginação
-        url = data.get("@odata.nextLink")
+            # 🔄 Paginação
+            url = data.get("@odata.nextLink")
 
-    return all_items
+        return all_items
 
 
 # 🔧 Normalização de colunas
@@ -98,4 +98,5 @@ def normalize_columns(df: pd.DataFrame) -> pd.DataFrame:
     )
 
     return df
+
 
