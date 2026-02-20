@@ -52,7 +52,7 @@ class GraphClient:
         raise ValueError(f"Lista '{list_name}' não encontrada.")
 
     def fetch_list_items(self, site_id: str, list_id: str) -> list:
-        url = f"https://graph.microsoft.com/v1.0/sites/{site_id}/lists/{list_id}/items?$expand=fields"
+        url = f"{self.base_url}/sites/{site_id}/lists/{list_id}/items?expand=fields"
 
         all_items = []
 
@@ -86,3 +86,4 @@ def normalize_columns(df: pd.DataFrame) -> pd.DataFrame:
     )
 
     return df
+
