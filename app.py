@@ -27,11 +27,7 @@ st.title("📊 Análise Perfil dos Ingressantes")
 
 # 📥 Carregar dados do SharePoint
 try:
-    df = carregar_sharepoint(
-        hostname=st.secrets["SHAREPOINT_HOSTNAME"],
-        site_path=st.secrets["SHAREPOINT_SITE_PATH"],
-        list_name=st.secrets["SHAREPOINT_LIST_NAME"],
-    )
+    df = carregar_sharepoint()
 
     st.success("Base carregada da API do SharePoint ✅")
 
@@ -141,3 +137,4 @@ safe_plot(grafico_motivos_escolha, df_filtrado)
 safe_plot(grafico_expectativas_curso, df_filtrado)
 safe_plot(grafico_objetivos_profissionais, df_filtrado)
 safe_plot(grafico_recomendacao, df_filtrado)
+
